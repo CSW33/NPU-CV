@@ -11,7 +11,7 @@
 
 # 页面预览
 
-![](.\readme_images\example-1.png)
+![](https://CSW33.github.io/NPU-CV/raw/readme_images/example-1.png)
 
-![](.\readme_images\example-2.png)
+![](https://CSW33.github.io/NPU-CV/raw/readme_images/example-2.png)
 
