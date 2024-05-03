@@ -57,6 +57,7 @@
 \usepackage{tabularx}
 \usepackage{multicol}
 \usepackage{fontspec}
+\usepackage{caption}
 
 % 一些小设置，参考自https://github.com/LeyuDame/BNUCV/tree/main
 \CJKsetecglue{}							            % 取消中文字符与数字之间的间隔
@@ -116,6 +117,13 @@
 \renewcommand{\arraystretch}{1.2}
 % 这里把正文的行间距调成1.2倍了
 \linespread{1.2}
+
+% 这是图例的caption格式设置
+\captionsetup[figure]{
+    labelfont={},
+    labelformat={default},
+    labelsep=period,name={图}      % 这里表示你的caption会以“图1”，“图2”，“图3”开头，可以自行更换前缀
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    ！！！！！！！！ 记得改这里 ！！！！！！！！
@@ -202,6 +210,7 @@
         \end{minipage}
         % 尽量留至少1%的间距，不然会换行
     \end{figure}
+    \vspace{-2em}
 
 
 	% 教育背景
@@ -235,7 +244,7 @@
     
     \textbf{第一负责人} \hfill 2022年7月-2023年7月
     
-    主要负责药物的\textbf{前期研发，中期亲自试药和后期的投毒计划部署}与主要执行人员。成功将著名侦探\textbf{工藤新一}变成小孩摸样。药物的研发成功让\textbf{150万人}收益，最终盈利\textbf{3000万元}。
+    主要负责药物的\textbf{前期研发，中期亲自试药和后期的投毒计划部署}与主要执行人员。成功将著名侦探\textbf{工藤新一}变成小孩摸样。药物的研发成功让\textbf{150万人}收益，最终盈利\textbf{3000万元}，效果图见图~\ref{fig: example_1}。
     
     % 这是个工科类加粗的例子
     \vspace{1em}                % 这是换行用的
@@ -251,7 +260,7 @@
         
     \textbf{一作} \hfill 2023年12月-2024年1月
     
-    你有这么\textbf{高速运转的机械}进入中国，进入我给出的原理，小时候。就是\textbf{研发}人，就是研发这个东西的原理是\textbf{阴间政权}管。你知道为什么有圣灵给它\textbf{运转仙位}？还有专门饲养这个？为什么地下产这种东西？他管的他是五世同堂旗下子孙。你以为我跟你闹着玩儿呢？你不警察吗？黄龙江一带全都\textbf{带蓝牙}。黄龙江我告诉你在阴间是是那个化名，化名我小舅，亲小舅，张学兰的那个嫡子、嫡孙。
+    你有这么\textbf{高速运转的机械}进入中国，进入我给出的原理，小时候。就是\textbf{研发人}，就是研发这个东西的原理是\textbf{阴间政权}管。你知道为什么有圣灵给它\textbf{运转仙位}？还有专门饲养这个？为什么地下产这种东西？他管的他是五世同堂旗下子孙。你以为我跟你闹着玩儿呢？你不警察吗？黄龙江一带全都\textbf{带蓝牙}。黄龙江我告诉你在阴间是是那个化名，化名我小舅，亲小舅，张学兰的那个嫡子、嫡孙。产品渲染图见图~\ref{fig: example_2}。
 
     % 在研的也能写
     % 课程大作业也能写，但是不要标明是大作业就行
@@ -261,7 +270,7 @@
         
     \textbf{主要技术负责人} \hfill 忘了日期
     
-    对古代中国工匠制作锤子的历史、工艺和技术进行深入研究，包括原材料的选择、工具的制作、锤子的设计和锻造工艺等方面。结合现代工艺技术和设计理念，探索如何将古代工匠的技艺与现代制造工艺相结合，以提高锤子的性能、品质和设计。通过实际制作锤子的过程，验证理论和技术的可行性，并对制作过程中的关键环节进行深入分析和总结。
+    对古代中国工匠制作锤子的历史、工艺和技术进行深入研究，包括原材料的选择、工具的制作、锤子的设计和锻造工艺等方面。结合现代工艺技术和设计理念，探索如何将古代工匠的技艺与现代制造工艺相结合，以提高锤子的性能、品质和设计。通过实际制作锤子的过程，验证理论和技术的可行性，并对制作过程中的关键环节进行深入分析和总结，成品见图~\ref{fig: example_3}。
 
     % 终于用完一页了，加一页展示怎么加页眉页脚
     \newpage
@@ -299,6 +308,30 @@
 		};
 	\end{tikzpicture}
 
+    % 图例
+        % 用minipage可以一行多图，只需控制每张图的宽度就行
+        % 0.32\linewidth 表示一张图占行宽32%，每个都预留一点空间，避免溢出换行
+        % [b] 表示下对齐。[t]是上对齐，可以自行更改。
+    \begin{figure}[h!]
+        \centering
+        \scriptsize
+        \begin{minipage}[b]{0.32\linewidth}
+            \includegraphics[width=\textwidth]{images/example_image_1.png}   
+            \captionof{figure}{效果图。}
+            \label{fig: example_1} 
+        \end{minipage}
+        \begin{minipage}[b]{0.32\linewidth}
+            \includegraphics[width=\textwidth]{images/example_image_2.png}   
+            \captionof{figure}{机器渲染图。}
+            \label{fig: example_2} 
+        \end{minipage}
+        \begin{minipage}[b]{0.32\linewidth}
+            \includegraphics[width=\textwidth]{images/example_image_3.png}   
+            \captionof{figure}{你看个锤子看。}
+            \label{fig: example_3}
+        \end{minipage}
+    \end{figure}
+
     % 竞赛经历（找导师也可能看中这个，因为代表了一定实践能力，但是尽量对口吧，不要运动会都写进去了）
     \section{\makebox[\widthof{\faTrophy}][c]{\color{NPU_Blue}{\faTrophy}}\quad 竞赛经历}
     \vspace{-1em}
@@ -311,20 +344,75 @@
         \end{tabularx}
     \end{table}
 
+    {\LARGE \color{red}{或者你可以}}
+
+    \begin{table}[h!]
+        \begin{tabularx}{\textwidth}{Xp{\widthof{第零负责人}}p{\widthof{国家级-第100名}}p{\widthof{2030年13月}}}
+            \textbf{2022年全国大学生交流大赛} & 技术负责人 & 省级-三等奖 & 2023年8月\\
+        \end{tabularx}
+    \end{table}
+    \vspace{-1em}
+    (“鸡同鸭讲”系统——一款全新的乱套翻译软件)主要负责了\textbf{移动端(安卓\&IOS)软件开发}，\textbf{数据库建立与部署}，实现了低达\textbf{0.01\%的翻译准确率}。
+
+    \begin{table}[h!]
+        \begin{tabularx}{\textwidth}{Xp{\widthof{第零负责人}}p{\widthof{国家级-第100名}}p{\widthof{2030年13月}}}
+            \textbf{2022年全国大学生睡觉大赛} & 技术负责人 & 省级-一等奖 & 2023年4月\\
+        \end{tabularx}
+    \end{table}
+    \vspace{-1em}
+    (基于躺姿的标准8小时睡眠理论研究)主要负责了\textbf{躺姿的设计}，枕头和床褥的选购。在队友的助眠协助下成功睡眠\textbf{8小时}。
+
     % 技能特长，上面写很多的话，这里就随便写点，反正上面都看出来了。上面写的不多的话，这里着重强调你会什么。
     % 哦，你找工作的话，这里多写点，记得对口，可以\textbf{}加粗。
     % 这里能吹牛皮就吹牛皮，但是确保面试的时候别露馅就行。
     \section{\makebox[\widthof{\faWrench}][c]{\color{NPU_Blue}{\faWrench}}\quad 技能特长}
     \vspace{0.5em}
     \begin{itemize}
-        \item 熟练使用\Cpp 、Python、Matlab编程语言。
-        \item 熟悉Windows与Linux端开发。
-        \item 熟练使用Tensorflow，Pytorch等深度学习框架。
-        \item 熟练掌握\Cpp 与Python环境下OpenCV与Qt应用的开发，且熟练使用Qt Creator软件。
-        \item 熟练使用Altium Designer与LCEDA进行封装绘制与板子设计。
-        \item 熟练使用Keil，Arduino IDE等集成开发软件。
-        \item 了解模式识别，强化学习，遗传算法，知识蒸馏等相关概念。
+        \item 熟练提肛技巧
+        \item 在游戏中熟练使用C语言
+        \item 熟悉安卓环境下的游戏安装
+        \item 遇到困难会睡大觉
+        \item 饿了会吃饭
+        \item 尿急会上厕所
+        \item 没钱了会让你发工资
     \end{itemize}
+
+    % 终于用完一页了，加一页展示怎么加页眉页脚
+    \newpage
+
+    % 宝子，请加在这里
+	% 页眉，校徽，学院名
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[anchor=north, inner sep=0pt](header) at (current page.north){
+			\includegraphics[width=\paperwidth]{images/header.png}
+		};
+		\node[anchor=west](school_logo) at (header.west){
+			\hspace{0.5cm}
+			\includegraphics[width=0.25\textwidth]{images/npu_logo_2.png}
+		};
+		\node[anchor=east](school_name) at(header.east){
+			\textcolor{white}{\textbf{\school}}
+			\hspace{0.5cm}
+		};
+	\end{tikzpicture}
+	\vspace{-4em}
+
+	% 页脚，联系方式
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[anchor = south, inner sep=0pt] at (current page.south){
+			\includegraphics[width=\paperwidth]{images/footer.png}
+		};
+        % 联系方式
+        \node[anchor=center] at(footer.center){\contact};
+	\end{tikzpicture}
+	
+	% 背景
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[opacity=0.1] at(current page.center){
+			\includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
+		};
+	\end{tikzpicture}
+
 
     % 所获荣誉（这个看你想不想写了）
     \section{\makebox[\widthof{\faStar}][c]{\color{NPU_Blue}{\faStar}}\quad 所获荣誉}

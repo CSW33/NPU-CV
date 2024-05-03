@@ -7,18 +7,16 @@
 - 章节的排序可以自行更改，也可以直接删除不要的部分。
 - 表格内容可自行拓展。
 
-- LaTeX正文里出现下划线`_`记得加反斜杠转义->`\_`，例：
+- LaTeX正文里出现下划线`_`，`&`，`%`等标点，记得加反斜杠转义->`\_`，`\&`，`\%`，例：
 
 ```latex
-\newcommand{\contact}
-{
-    \small
-    \textcolor{white}
-    {
-        \faWechat \quad csw209479545_3  % 错误的
-        \faWechat \quad csw209479545\_3	% 正确的
-    }
-}
+holy_shit 		% 错误
+Android&IOS		% 错误
+60%Accuracy		% 错误
+
+holy\_shit		% 正确
+Android\&IOS	% 正确
+60\%Accuracy	% 正确
 ```
 
 
@@ -28,4 +26,6 @@
 ![](readme_images/example-1.png)
 
 ![](readme_images/example-2.png)
+
+![](readme_images/example-3.png)
 
