@@ -56,7 +56,7 @@
 \usepackage{amssymb}
 \usepackage{tabularx}
 \usepackage{multicol}
-
+\usepackage{fontspec}
 
 % 一些小设置，参考自https://github.com/LeyuDame/BNUCV/tree/main
 \CJKsetecglue{}							            % 取消中文字符与数字之间的间隔
@@ -96,9 +96,17 @@
 \renewcommand{\CJKglue}{\hskip 0.05em}
 
 % 英文字体
-\setmainfont{Microsoft YaHei}
+\setmainfont[
+    Path=fonts/,
+    Extension=.ttf,
+    BoldFont=* Bold,
+]{Microsoft Yahei}
 % 中文字体
-\setCJKmainfont{Microsoft YaHei}
+\setCJKmainfont[
+    Path=fonts/,
+    Extension=.ttf,
+    BoldFont=* Bold,
+]{Microsoft Yahei}
 
 % 主题色
 % 西工大蓝
