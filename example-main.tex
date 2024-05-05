@@ -24,15 +24,20 @@
         LaTeX排版就是很整齐，强迫症狂喜。
 
 
+        然后就是更新之后就不需要手动为每一页添加页脚页眉背景了。但是新建页面/换页要用'\newnewpage'而不是'\newpage'。
+        原本想的是用EveryPageHook来自动添加的，但是有一个bug：第一页的背景透明度会失效，变得很丑，就像直接使用background包一样。
+        如果有知道怎么简单的，可发布的方法来解决这个bug的话，请github/gitee联系我。
+
         记得要三次XeLaTeX编译！！！
         记得要三次XeLaTeX编译！！！
         记得要三次XeLaTeX编译！！！
         这个很重要，所以说三遍！
-
-        你可以试试两次的，好像某些环境两次编译也能显示图像，但最好还是三次编译。
+        可以试试两次的，好像某些环境两次编译也能显示图像，但最好还是三次编译。
 \fi
 
 \documentclass[11pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{calc}
 \usepackage{xltxtra}
 \usepackage{bookmark}
 \usepackage{hyperref}
@@ -43,8 +48,6 @@
 \usepackage{xcolor}
 \usepackage{calc}
 \usepackage{graphicx}
-\usepackage{tikz}
-\usetikzlibrary{calc}
 \usepackage{fontspec}
 \usepackage{xeCJK}
 \usepackage{relsize}
@@ -58,85 +61,21 @@
 \usepackage{multicol}
 \usepackage{fontspec}
 \usepackage{caption}
+\usepackage{everypage}
 
-% 一些小设置，参考自https://github.com/LeyuDame/BNUCV/tree/main
-\CJKsetecglue{}							            % 取消中文字符与数字之间的间隔
-\protected\def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.28ex}{\relsize{-1}++}}\xspace}	% 这是个更好看的C++写法，你直接写C++的话，+号会很大，可以使用\Cpp来代替
-\setlength{\parindent}{0pt}							% 取消全局段落缩进
-\pagenumbering{gobble}								% 取消页码显示
-%\setlist{noitemsep}									% 禁用列表中项目之间的额外垂直间距，但保留列表周围的间距
-%\setlist{nosep}										% 禁用列表中项目之间的额外垂直间距及列表周围的间距
-\setlist[itemize]{topsep=0em, leftmargin=*}		% 增加了itemize顶部间距
-\setlist[enumerate]{topsep=0em, leftmargin=*}	% 增加了enumerate顶部间距
 
-\titleformat{\section}					    % 将原标题前面的数字取消了
-  {\LARGE\bfseries\raggedright} 		    % 字体改为LARGE，bold，左对齐
-  {}{0em}                      			    % 可用于添加全局标题前缀
-  {}                           			    % 可用于添加代码
-  [{\color{NPU_Blue}\titlerule}]            % 标题下方加一条线
-\titlespacing*{\section}{0cm}{*1.2}{*1.2}	% 标题左边留白，上方1.2倍，下方1.2倍
-
-\titleformat{\subsection}				    % 将原二级标题前面的数字取消了
-  {\large\bfseries\raggedright} 		    % 字体改为large，bold，左对齐
-  {}{0em}                      			    % 可用于添加全局二级标题前缀
-  {}                           			    % 可用于添加代码
-  []
-\titlespacing*{\subsection}{0cm}{*1.2}{*1.2}% 二级标题左边留白，上方1.2倍，下方1.2倍
-
-% 页面大小与页边距，按需求调整
-\usepackage[
-	a4paper,
-	left=1.2cm,
-	right=1.2cm,
-	top=1.5cm,
-	bottom=1cm,
-	nohead
-]{geometry}
-
-% 中文字符间距
-\renewcommand{\CJKglue}{\hskip 0.05em}
-
-% 英文字体
-\setmainfont[
-    Path=fonts/,
-    Extension=.ttf,
-    BoldFont=* Bold,
-]{Microsoft Yahei}
-% 中文字体
-\setCJKmainfont[
-    Path=fonts/,
-    Extension=.ttf,
-    BoldFont=* Bold,
-]{Microsoft Yahei}
-
-% 主题色
-% 西工大蓝
-\definecolor{NPU_Blue}{RGB}{0, 80, 158}
-
-% 这里把表格的行间距调成1.2倍了
-\renewcommand{\arraystretch}{1.2}
-% 这里把正文的行间距调成1.2倍了
-\linespread{1.2}
-
-% 这是图例的caption格式设置
-\captionsetup[figure]{
-    labelfont={},
-    labelformat={default},
-    labelsep=period,name={图}      % 这里表示你的caption会以“图1”，“图2”，“图3”开头，可以自行更换前缀
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    ！！！！！！！！ 记得改这里 ！！！！！！！！
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							记得改这里							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % 学院
-\newcommand{\school}{电子信息学院 | School of Electronics And Information}
+\newcommand{\configSchool}{电子信息学院 | School of Electronics And Information}
 % 也可以不写英语
 %\newcommand{\school}{电子信息学院}
 % 联系方式
-\newcommand{\contact}
+\newcommand{\configContact}
 {
-    \small              % 换了更小的字号
-    % \footnotesize       % 这比上面的小一号
+    %\small              % 换了更小的字号
+    %\footnotesize       % 这比上面的小一号
     \scriptsize         % 这比上面的再小一号
     \textcolor{white}
     {
@@ -150,44 +89,115 @@
     }
 }
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    ！！！！！！！！ 这里开始就是正文了 ！！！！！！！！
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{document}
-	% 如果有多页简历，请把页眉页脚和背景复制粘贴到第二页的内容之前
-	% 页眉，校徽，学院名
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							页面设置							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% 页面大小与页边距，按需求调整
+\usepackage[
+	a4paper,
+	left=1.2cm,
+	right=1.2cm,
+	top=1cm,
+	bottom=1.5cm,
+	nohead
+]{geometry}
+\newcommand{\newnewpage}{
+    \newpage
+    背景
 	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=north, inner sep=0pt](header) at (current page.north){
+        % 背景
+		\node[opacity=0.05](background) at(current page.center){
+			\includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
+		};
+        % 页眉
+        \node[anchor=north, inner sep=0pt](header) at (current page.north){
 			\includegraphics[width=\paperwidth]{images/header.png}
 		};
+        % 校徽
 		\node[anchor=west](school_logo) at (header.west){
 			\hspace{0.5cm}
 			\includegraphics[width=0.25\textwidth]{images/npu_logo_2.png}
 		};
+        % 学院名
 		\node[anchor=east](school_name) at(header.east){
-			\textcolor{white}{\textbf{\school}}
+			\textcolor{white}{\textbf{\configSchool}}
 			\hspace{0.5cm}
 		};
-	\end{tikzpicture}
-	\vspace{-4em}
-
-	% 页脚，联系方式
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=south, inner sep=0pt](footer) at (current page.south){
+        % 页脚
+        \node[anchor=south, inner sep=0pt](footer) at (current page.south){
 			\includegraphics[width=\paperwidth]{images/footer.png}
 		};
         % 联系方式
-        \node[anchor=center] at(footer.center){\contact};
+        \node[anchor=center] at(footer.center){\configContact};
 	\end{tikzpicture}
-	
-	% 背景
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[opacity=0.1] at(current page.center){
-			\includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
-		};
-	\end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							字体设置							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% 英文字体
+\setmainfont[
+    Path=fonts/,
+    Extension=.ttf,
+    BoldFont=* Bold,
+]{Microsoft Yahei}
+% 中文字体
+\setCJKmainfont[
+    Path=fonts/,
+    Extension=.ttf,
+    BoldFont=* Bold,
+]{Microsoft Yahei}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							样式设置							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 一级标题
+\titleformat{\section}					    % 将原标题前面的数字取消了
+  {\LARGE\bfseries\raggedright} 		    % 字体改为LARGE，bold，左对齐
+  {}{0em}                      			    % 可用于添加全局标题前缀
+  {}                           			    % 可用于添加代码
+  [{\color{NPU_Blue}\titlerule}]            % 标题下方加一条线
+\titlespacing*{\section}{0cm}{*1.2}{*1.5}	% 标题左边留白，上方1.2倍，下方1.2倍
+
+% 二级标题
+\titleformat{\subsection}				    % 将原二级标题前面的数字取消了
+  {\large\bfseries\raggedright} 		    % 字体改为large，bold，左对齐
+  {}{0em}                      			    % 可用于添加全局二级标题前缀
+  {}                           			    % 可用于添加代码
+  []
+\titlespacing*{\subsection}{0cm}{*1.2}{*1.5}% 二级标题左边留白，上方1.2倍，下方1.2倍
+
+% 图例的caption格式设置
+\captionsetup[figure]{
+    labelfont={},
+    labelformat={default},
+    labelsep=period,name={图}               % 这里表示你的caption会以“图1”，“图2”，“图3”开头，可以自行更换前缀
+}
+
+\CJKsetecglue{}							            % 取消中文字符与数字之间的间隔
+\setlength{\parindent}{0pt}							% 取消全局段落缩进
+\pagenumbering{gobble}								% 取消页码显示
+
+% 这是个更好看的C++写法，你直接写C++的话，+号会很大，可以使用\Cpp来代替
+\protected\def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.28ex}{\relsize{-1}++}}\xspace}
+% 中文字符间距
+\renewcommand{\CJKglue}{\hskip 0.05em}
+% 这里把表格的行间距调成1.2倍了
+\renewcommand{\arraystretch}{1.2}
+% 这里把正文的行间距调成1.2倍了
+\linespread{1.2}
+
+% 主题色
+% 西工大蓝
+\definecolor{NPU_Blue}{RGB}{0, 80, 158}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							正文开始							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    % 新建页面，这个别删
+    \newnewpage
+
 
 	% 个人信息
     \begin{figure}[h]
@@ -225,7 +235,7 @@
             % 这里哪个高就加粗哪个，哪个不想放就留白 =w= 比如你综测高GPA低，你就只放综测和综测排名就好。
         \end{tabularx}
     \end{table}
-        % 已修课程，可以不放，最好还是放点对口的课
+    % 已修课程，可以不放，最好还是放点对口的课
     {
         \small
         已修课程：计算方法，机器视觉与人工智能，计算机视觉技术，语音信号处理，智能人机交互与视觉感知综合设计，遥感信息获取与处理导论，通信原理，高频电子线路
@@ -237,9 +247,9 @@
         % \faFlask 这是烧瓶，适合生化类
         % \faLaptop 这是个笔记本电脑，适合计算机类
         % \faUsers 这是三个人，适合商科
+        % 小技巧，老师想看的重点加粗，比如商科类的一般更想看到数字，工科类的更想看到技术
     \section{\makebox[\widthof{\faGears}][c]{\color{NPU_Blue}{\faGears}}\quad 项目经历}
-    \vspace{0.5em}
-    % 小技巧，老师想看的重点加粗，比如商科类的一般更想看到数字，工科类的更想看到技术
+    \vspace{0.5em}              % subsection和section之间加一个0.5em会好看点
     \subsection{APTX4869药物研发\hfill 国家级大创-优秀结题}
     
     \textbf{第一负责人} \hfill 2022年7月-2023年7月
@@ -272,41 +282,10 @@
     
     对古代中国工匠制作锤子的历史、工艺和技术进行深入研究，包括原材料的选择、工具的制作、锤子的设计和锻造工艺等方面。结合现代工艺技术和设计理念，探索如何将古代工匠的技艺与现代制造工艺相结合，以提高锤子的性能、品质和设计。通过实际制作锤子的过程，验证理论和技术的可行性，并对制作过程中的关键环节进行深入分析和总结，成品见图~\ref{fig: example_3}。
 
-    % 终于用完一页了，加一页展示怎么加页眉页脚
-    \newpage
 
-    % 宝子，请加在这里
-	% 页眉，校徽，学院名
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=north, inner sep=0pt](header) at (current page.north){
-			\includegraphics[width=\paperwidth]{images/header.png}
-		};
-		\node[anchor=west](school_logo) at (header.west){
-			\hspace{0.5cm}
-			\includegraphics[width=0.25\textwidth]{images/npu_logo_2.png}
-		};
-		\node[anchor=east](school_name) at(header.east){
-			\textcolor{white}{\textbf{\school}}
-			\hspace{0.5cm}
-		};
-	\end{tikzpicture}
-	\vspace{-4em}
+    % 换页
+    \newnewpage
 
-	% 页脚，联系方式
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor = south, inner sep=0pt] at (current page.south){
-			\includegraphics[width=\paperwidth]{images/footer.png}
-		};
-        % 联系方式
-        \node[anchor=center] at(footer.center){\contact};
-	\end{tikzpicture}
-	
-	% 背景
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[opacity=0.1] at(current page.center){
-			\includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
-		};
-	\end{tikzpicture}
 
     % 图例
         % 用minipage可以一行多图，只需控制每张图的宽度就行
@@ -332,9 +311,10 @@
         \end{minipage}
     \end{figure}
 
+
     % 竞赛经历（找导师也可能看中这个，因为代表了一定实践能力，但是尽量对口吧，不要运动会都写进去了）
     \section{\makebox[\widthof{\faTrophy}][c]{\color{NPU_Blue}{\faTrophy}}\quad 竞赛经历}
-    \vspace{-1em}
+    \vspace{-1em}           % table 前减一个1em会好看点
     \begin{table}[h!]
         \begin{tabularx}{\textwidth}{Xp{\widthof{第零负责人}}p{\widthof{国家级-第100名}}p{\widthof{2030年13月}}}
             \textbf{2023年全国大学生无聊透顶比赛} & 第一负责人 & 国家级-第10名 & 2023年4月 \\
@@ -362,11 +342,12 @@
     \vspace{-1em}
     (基于躺姿的标准8小时睡眠理论研究)主要负责了\textbf{躺姿的设计}，枕头和床褥的选购。在队友的助眠协助下成功睡眠\textbf{8小时}。
 
+
     % 技能特长，上面写很多的话，这里就随便写点，反正上面都看出来了。上面写的不多的话，这里着重强调你会什么。
     % 哦，你找工作的话，这里多写点，记得对口，可以\textbf{}加粗。
     % 这里能吹牛皮就吹牛皮，但是确保面试的时候别露馅就行。
     \section{\makebox[\widthof{\faWrench}][c]{\color{NPU_Blue}{\faWrench}}\quad 技能特长}
-    \vspace{0.5em}
+    \vspace{0.5em}          % itemize 前加一个0.5em会好看点
     \begin{itemize}
         \item 熟练提肛技巧
         \item 在游戏中熟练使用C语言
@@ -377,46 +358,14 @@
         \item 没钱了会让你发工资
     \end{itemize}
 
-    % 终于用完一页了，加一页展示怎么加页眉页脚
-    \newpage
 
-    % 宝子，请加在这里
-	% 页眉，校徽，学院名
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=north, inner sep=0pt](header) at (current page.north){
-			\includegraphics[width=\paperwidth]{images/header.png}
-		};
-		\node[anchor=west](school_logo) at (header.west){
-			\hspace{0.5cm}
-			\includegraphics[width=0.25\textwidth]{images/npu_logo_2.png}
-		};
-		\node[anchor=east](school_name) at(header.east){
-			\textcolor{white}{\textbf{\school}}
-			\hspace{0.5cm}
-		};
-	\end{tikzpicture}
-	\vspace{-4em}
-
-	% 页脚，联系方式
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor = south, inner sep=0pt] at (current page.south){
-			\includegraphics[width=\paperwidth]{images/footer.png}
-		};
-        % 联系方式
-        \node[anchor=center] at(footer.center){\contact};
-	\end{tikzpicture}
-	
-	% 背景
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[opacity=0.1] at(current page.center){
-			\includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
-		};
-	\end{tikzpicture}
+    % 换页
+    \newnewpage
 
 
     % 所获荣誉（这个看你想不想写了）
     \section{\makebox[\widthof{\faStar}][c]{\color{NPU_Blue}{\faStar}}\quad 所获荣誉}
-    \vspace{-1em}
+    \vspace{-1em}           % multicols 前减一个1em会好看点
     \begin{multicols}{2}
         \begin{itemize}
             \item 某年学业先进个人
@@ -428,8 +377,10 @@
         \end{itemize}
     \end{multicols}
 
+    
     % 其他（也是看你想不想写）
     \section{\makebox[\widthof{\faInfo}][c]{\color{NPU_Blue}{\faInfo}}\quad 其他}
+    \vspace{0.5em}          % itemize 前加一个0.5em会好看点
     \begin{itemize}
         \item 英语水平-CET6级xxx分
         \item 计算机几级证书
@@ -439,5 +390,7 @@
         \item 普通话证书：几级几等
         \item 文字排版：\LaTeX
     \end{itemize}
-
 \end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%							正文结束							%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
