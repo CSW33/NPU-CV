@@ -4,6 +4,8 @@
 - 本地编译记得用`XeLaTeX*3`，即三次`XeLaTeX`进行编译，否则无法正确显示照片。（某些时候两次也可以）
 - Overleaf上直接选择`XeLaTeX`即可。（左上角Menu->Settings->Compiler）
 
+- 新建页面需要用自定义的`\newnewpage`，可自动添加页脚页眉背景，而不是`\newpage`。（不做成hook的原因是XeLaTeX和tikz在第一页会出现不兼容的情况，所以需要手动新建页面）
+
 - 章节的排序可以自行更改，也可以直接删除不要的部分。
 - 表格内容可自行拓展。
 
