@@ -24,9 +24,7 @@
         LaTeX排版就是很整齐，强迫症狂喜。
 
 
-        然后就是更新之后就不需要手动为每一页添加页脚页眉背景了。但是新建页面/换页要用'\newnewpage'而不是'\newpage'。
-        原本想的是用EveryPageHook来自动添加的，但是有一个bug：第一页的背景透明度会失效，变得很丑，就像直接使用background包一样。
-        如果有知道怎么简单的，可发布的方法来解决这个bug的话，请github/gitee联系我。
+        然后就是更新之后就不需要手动为每一页添加页脚页眉背景了，也不用newnewpage了，用一个bug解决了另一个bug。
 
         记得要三次XeLaTeX编译！！！
         记得要三次XeLaTeX编译！！！
@@ -97,14 +95,14 @@
 	a4paper,
 	left=1.2cm,
 	right=1.2cm,
-	top=1cm,
+	top=1.8cm,
 	bottom=1.5cm,
 	nohead
 ]{geometry}
-\newcommand{\newnewpage}{
-    \newpage
-    背景
-	\begin{tikzpicture}[remember picture, overlay]
+
+% 每页自动添加背景，页眉，页脚，bug已解决
+\AddEverypageHook{
+    \begin{tikzpicture}[remember picture, overlay]
         % 背景
 		\node[opacity=0.05](background) at(current page.center){
 			\includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
@@ -195,10 +193,23 @@
 %							正文开始							%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-    % 新建页面，这个别删
-    \newnewpage
 
+    %%%%%%%%%%%%%%%% 这段别删，这个段莫名其妙解决了一个大bug %%%%%%%%%%%%%%%%
+        % 原本XeLaTeX好像和tikz有一点不兼容
+        % 如果直接使用background包或者AddEverypageHook的话，第一页的透明度会失效，会很丑
+        % 仿佛就像透明度相关的引擎没启动一样
+        % 但是莫名其妙的加上这段之后
+        % 莫名其妙又好了
+        % 你可以删了看看效果
+    \begin{tikzpicture}[remember picture, overlay]
+        % 注意这里opacity=0不要改，这里主要是启动了tikz的透明度功能
+        \node[opacity=0](background) at(current page.center){
+            \includegraphics[width=0.7\paperwidth, keepaspectratio]{images/npu_logo_big.png}
+        };
+    \end{tikzpicture}
+    %%%%%%%%%%%%%%%% 这段别删，这个段莫名其妙解决了一个大bug %%%%%%%%%%%%%%%%
 
+    \vspace{-2em}       % 第一页的缩进比较怪，建议加上这句调整
 	% 个人信息
     \begin{figure}[h]
         % 左半边，信息，比例占行宽87%，可以自己调
@@ -284,7 +295,7 @@
 
 
     % 换页
-    \newnewpage
+    \newpage
 
 
     % 图例
@@ -360,7 +371,7 @@
 
 
     % 换页
-    \newnewpage
+    \newpage
 
 
     % 所获荣誉（这个看你想不想写了）
